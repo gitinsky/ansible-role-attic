@@ -1,0 +1,9 @@
+---
+- name: install libacl-devel
+  yum: name=libacl-devel state=present
+
+- name: install attic
+  pip: name=attic executable=pip3.3
+
+- name: init a repo
+  shell: attic init /mnt/backup/repository.attic creates=/mnt/backup/repository.attic
