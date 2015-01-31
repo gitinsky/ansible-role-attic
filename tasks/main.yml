@@ -20,9 +20,19 @@
 
 - name: build msgpack-python
   shell: cd /root/msgpack-python && python3 ./setup.py build
+  when: ansible_distribution  == "Ubuntu"
 
 - name: install msgpack-python
   shell: cd /root/msgpack-python && python3 ./setup.py install
+  when: ansible_distribution  == "Ubuntu"
+
+- name: build msgpack-python
+  shell: cd /root/msgpack-python && python3.3 ./setup.py build
+  when: ansible_os_family  == "RedHat"
+
+- name: install msgpack-python
+  shell: cd /root/msgpack-python && python3.3 ./setup.py install
+  when: ansible_os_family  == "RedHat"
 
 - name: install attic
   pip: name=attic executable=pip3.3
