@@ -1,15 +1,45 @@
 ---
 - name: install libacl-devel
   yum: name=libacl-devel state=present
+  when: ansible_os_family  == "RedHat"
+
+- name: install libacl1-dev
+  apt: name=libacl1-dev state=present
+  when: ansible_distribution  == "Ubuntu"
+
+- name: install cython3
+  apt: name=cython3 state=present
+  when: ansible_distribution  == "Ubuntu"
 
 - name: install g++
   yum: name=gcc-c++ state=present
+  when: ansible_os_family  == "RedHat"
+
+- name: checkout msgpack-python
+  git: repo=https://github.com/msgpack/msgpack-python.git dest=/root/msgpack-python
+
+- name: build msgpack-python
+  shell: cd /root/msgpack-python && python3 ./setup.py build
+
+- name: install msgpack-python
+  shell: cd /root/msgpack-python && python3 ./setup.py install
 
 - name: install attic
   pip: name=attic executable=pip3.3
+  when: ansible_os_family  == "RedHat"
+
+- name: install attic
+  pip: name=attic executable=pip3
+  when: ansible_distribution  == "Ubuntu"
+
+- name: check if repo is initialized
+  shell: attic list {{ attic_repo_path }}
+  register: result
+  ignore_errors: yes
 
 - name: init a repo
-  shell: attic init /mnt/backup/repository.attic creates=/mnt/backup/repository.attic
+  shell: attic init {{ attic_repo_path }}
+  when: result|failed
 
 - name: put a cron task
   template: src=attic dest=/etc/cron.d/attic
