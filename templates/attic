@@ -1,0 +1,1 @@
+0 3 * * *   root  attic create --stats /mnt/backup/repository.attic::local-`date +%Y-%m-%d` / --exclude /proc --exclude /sys --exclude /mnt

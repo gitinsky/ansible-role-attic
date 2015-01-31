@@ -7,3 +7,6 @@
 
 - name: init a repo
   shell: attic init /mnt/backup/repository.attic creates=/mnt/backup/repository.attic
+
+- name: put a cron task
+  template: src=attic dest=/etc/cron.d/attic
