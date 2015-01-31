@@ -2,6 +2,9 @@
 - name: install libacl-devel
   yum: name=libacl-devel state=present
 
+- name: install g++
+  yum: name=gcc-c++ state=present
+
 - name: install attic
   pip: name=attic executable=pip3.3
 
