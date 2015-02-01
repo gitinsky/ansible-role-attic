@@ -1,1 +1,1 @@
-0 3 * * *   root  attic create --stats {{ attic_repo_path }}::local-`date +%Y-%m-%d` / --exclude /proc --exclude /sys --exclude /mnt
+0 3 * * *   root  attic create --stats {{ attic_repo_path }}::local-`date +%Y-%m-%d` / --exclude /proc --exclude /sys {% for exclusion in exclusions_list %} --exclude {{ exclusion.path }} {% endfor %}
