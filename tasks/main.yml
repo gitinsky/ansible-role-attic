@@ -17,6 +17,11 @@
 
 - name: install git
   yum: name=git state=present
+  when: ansible_os_family  == "RedHat"
+
+- name: install git
+  apt: name=git state=present
+  when: ansible_os_family  == "Debian"
 
 - name: checkout msgpack-python
   git: repo=https://github.com/msgpack/msgpack-python.git dest=/root/msgpack-python
